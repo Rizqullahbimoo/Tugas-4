@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Pendaftaran</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        form {
+            width: 50%;
+            margin: auto;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script>
+        function validateForm() {
+            const name = document.forms["registrationForm"]["name"].value;
+            const email = document.forms["registrationForm"]["email"].value;
+            const age = document.forms["registrationForm"]["age"].value;
+            const file = document.forms["registrationForm"]["file"].files[0];
+
+            if (!name || name.length < 3) {
+                alert("Nama harus diisi dan minimal 3 karakter.");
+                return false;
+            }
+            if (!email || !email.includes("@")) {
+                alert("Email harus diisi dengan format yang benar.");
+                return false;
+            }
+            if (!age || isNaN(age) || age <= 0) {
+                alert("Umur harus berupa angka positif.");
+                return false;
+            }
+            if (!file) {
+                alert("File harus diunggah.");
+                return false;
+            }
+            if (file.size > 1024 * 1024) {
+                alert("Ukuran file maksimal 1MB.");
+                return false;
+            }
+            if (!file.name.endsWith(".txt")) {
+                alert("File harus berupa teks (.txt).");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <form name="registrationForm" action="process.php" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+        <h2>Form Pendaftaran</h2>
+        <label for="name">Nama</label>
+        <input type="text" id="name" name="name" placeholder="Masukkan Nama Anda" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Masukkan Email Anda" required>
+
+        <label for="age">Umur</label>
+        <input type="number" id="age" name="age" placeholder="Masukkan Umur Anda" required>
+
+        <label for="message">Pesan</label>
+        <textarea id="message" name="message" placeholder="Masukkan Pesan Anda" required></textarea>
+
+        <label for="file">Unggah File (teks)</label>
+        <input type="file" id="file" name="file" accept=".txt" required>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
